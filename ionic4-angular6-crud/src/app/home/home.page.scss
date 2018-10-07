@@ -1,0 +1,17 @@
+
+ion-segment-button {
+    &.ion-color-primary {
+        --background:white;
+        --background-checked: #2B3BA5;
+    }
+    &.ion-color-secondary {
+        --background:white;
+        --background-checked: #2B3BA5;
+    }
+}
+.menu-semaine {
+    width: 100%;
+}
+.taille-jours {
+    height: 50px;
+}

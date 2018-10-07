@@ -1,0 +1,5 @@
+cd data
+node app.js
+cd ionic4-angular6-crud
+ionic serve -l -- --proxy-config proxy.node.conf.json
+

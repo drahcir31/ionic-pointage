@@ -1,0 +1,13 @@
+{
+    "name": "test",
+    "version": "0.0.1",
+    "author": "test",
+    "homepage": "http:///",
+    "scripts": {},
+    "private": true,
+    "dependencies": {
+        "body-parser": "^1.18.3",
+        "express": "^4.16.3",
+        "mongodb": "^3.1.6"
+    }
+}

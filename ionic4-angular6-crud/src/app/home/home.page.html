@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Pointage
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content text-center padding  *ngIf="semaineCourrante$ | async as semaineCourrante ">
+    <ion-item lines="none" *ngIf="semaineChoisie$ | async as semaineChoisie"> 
+    <ion-button slot="start"   color="tertiary" (click)="semainePrecedente(semaineChoisie)"  [disabled]="semaineChoisie === 1" ><<</ion-button>
+   <div class="menu-semaine" text-center><ion-text  color="tertiary" mode="ios"> semaine : {{semaineChoisie}}</ion-text></div>
+    <ion-button slot="end"  color="tertiary" (click)="semaineSuivante(semaineChoisie)" [disabled]="semaineChoisie === semainesDispo.length">>></ion-button>
+    <ion-button slot="end"  color="tertiary" (click)="nouvelleSemaine(semaineChoisie)" [disabled]="semaineChoisie !== semainesDispo.length">+</ion-button>
+  </ion-item>
+    <ion-text color="primary" mode="ios">
+      <h2>Choix de l'équipe</h2> 
+    </ion-text>
+    <ion-segment color="primary" [(ngModel)]="this.choixEquipe" mode="ios" (ionChange)="this.changementEquipe($event)">
+      <ion-segment-button [value]="EQUIPE_MATIN" checked>
+        MATIN
+      </ion-segment-button>
+      <ion-segment-button [value]="EQUIPE_APREM">
+        APRES MIDI
+      </ion-segment-button>
+      <ion-segment-button [value]="EQUIPE_NONE">
+        AUCUNE (CONGES)
+      </ion-segment-button>
+    </ion-segment>
+    <!--ion-segment color="primary" [(ngModel)]="this.choixEquipe" mode="ios" (ionChange)="this.changementEquipe($event)">
+      <ion-segment-button [value]="EQUIPE_MATIN" checked>
+        MATIN
+      </ion-segment-button>
+      <ion-segment-button [value]="EQUIPE_APREM">
+        APRES MIDI
+      </ion-segment-button>
+      <ion-segment-button [value]="EQUIPE_NONE">
+        AUCUNE (CONGES)
+      </ion-segment-button>
+    </ion-segment-->
+    <!--ion-text color="secondary" mode="ios">
+      <h2>Choix de l'horaire</h2>
+    </ion-text>
+    <ion-segment color="secondary" [disabled]="!this.choixEquipe" [(ngModel)]="this.choixHoraire" mode="ios">
+      <ng-container *ngFor="let horaire of this.horaires">
+        <ion-segment-button [value]="horaire" [checked]="this.choixHoraire === horaire" *ngIf="horaire?.equipe == this.choixEquipe">
+          {{ this.choixEquipe != EQUIPE_NONE ? horaire?.afficherHoraire() : horaire?.afficherConge()}}
+        </ion-segment-button>
+      </ng-container>
+    </ion-segment-->
+    <!--ion-list >
+        <ion-radio-group [(ngModel)]="this.choixHoraire">
+        <ion-list-header color="secondary">
+            Choix de l'horaire
+        </ion-list-header>
+        <ion-item  *ngIf="horaire?.equipe == this.choixEquipe">
+          <ion-label color="secondary"> {{ this.choixEquipe != EQUIPE_NONE ? horaire?.afficherHoraire() : horaire?.afficherConge()}}</ion-label>
+          <ion-radio color="secondary" [value]="horaire"></ion-radio>
+        </ion-item>
+      </ng-container> 
+    </ion-radio-group>
+      </ion-list>
+      <br-->
+     
+     <ion-radio-group  [(ngModel)]="this.choixHoraire">
+      <ng-container *ngFor="let horaire of this.horaires; index as i">
+       <ion-item *ngIf="horaire?.equipe == this.choixEquipe">
+          <ion-label>{{ this.choixEquipe !=
+              EQUIPE_NONE ? utils.afficherHoraire(horaire) : utils.afficherConge(horaire)}}</ion-label>
+          <ion-radio  [value]="horaire" [checked]="horaire == this.choixHoraire"></ion-radio>
+        </ion-item>
+      </ng-container>
+    </ion-radio-group >
+    <!--ion-item>
+      <ion-label color="primary">Choix de l'horaire</ion-label>
+      <ion-select padding color="primary" [(ngModel)]="this.choixHoraire">
+        <ng-container *ngFor="let horaire of this.horaires">
+          <ion-select-option *ngIf="horaire?.equipe == this.choixEquipe" [value]="horaire">{{ this.choixEquipe !=
+            EQUIPE_NONE ? utils.afficherHoraire(horaire) : utils.afficherConge(horaire)}}</ion-select-option>
+        </ng-container>
+
+      </ion-select>
+    </ion-item-->
+    <ion-button size="small" (click)="affecterHoraire(semaineCourrante.jours)">affecter l'horaire</ion-button> <br>
+   
+    <ion-list>
+      <ion-item class="taille-jours" *ngFor="let jour of semaineCourrante.jours">
+          
+        <ion-label [color]="jour?.classCss">{{jour?.nom}}</ion-label>
+        <ion-checkbox [color]="jour?.classCss" slot="end" [(ngModel)]="jour.isCheck"></ion-checkbox>
+        <ion-label color="dark"><ion-spinner *ngIf="spin$ | async"></ion-spinner><span *ngIf="!(spin$ | async)">{{jour?.horaire?.equipe != EQUIPE_NONE ? (utils.afficherHoraire(jour?.horaire)):
+          (utils.afficherConge(jour?.horaire)) }}</span></ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-button color="tertiary" (click)="enregistrerSemaine('s1')">Enregistrement de la semaine</ion-button>
+  </ion-content>

@@ -1,0 +1,13 @@
+{
+  "name": "ionic4-angular6-crud",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "proxies": [
+    {
+        "path": "*/api",   
+        "proxyUrl": "http://localhost:4000/api"
+    }
+  ]
+}
